@@ -61,6 +61,7 @@ namespace BashkiaRaporton.Controllers
                 PageSize = pageSize
             };
             ViewBag.Role = new SelectList(_context.Roles, "Id", "Name");
+
             return PartialView("BanorePartial", pagination);
         }
       
@@ -210,6 +211,24 @@ namespace BashkiaRaporton.Controllers
                 banore.Detyrime = false;
                 
 
+            }
+
+            _context.SaveChanges();
+            return Ok();
+        }
+        public async Task<IActionResult> UpdateRole(string id, bool @checked)
+        {
+            
+            IdentityUser identityUser = await _userManager.FindByIdAsync(id);
+            IdentityRole identityRole = await manager.FindByNameAsync("Administrator");
+           
+            if (@checked == true)
+            {
+               await _userManager.AddToRoleAsync(identityUser, identityRole.Name);
+            }
+            else
+            {
+              await _userManager.RemoveFromRoleAsync(identityUser, identityRole.Name);
             }
 
             _context.SaveChanges();

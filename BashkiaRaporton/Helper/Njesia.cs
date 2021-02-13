@@ -1,4 +1,6 @@
 ﻿using BashkiaRaporton.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +41,21 @@ namespace BashkiaRaporton.Helper
             }
 
         }
+        public static string CheckedUserRole(ApplicationDbContext context ,string Banoreid)
+        {
+            
+            var x = context.UserRoles.Where(r => r.UserId == Banoreid).Count();
+            if(x!= 0)
+            {
+                return "checked";
+            }
+            else
+            {
+                return "";
+            }
+
+
+        }
         public static string CheckedNjoftime(ApplicationDbContext context, int njoftimeid)
         {
             var number = context.Njoftime.Where(nj => nj.Shikushmeria == true && nj.NjoftimeId == njoftimeid).Count();
@@ -50,6 +67,13 @@ namespace BashkiaRaporton.Helper
             {
                 return "";
             }
+
+        }
+
+        public static int Njoftime(ApplicationDbContext context, string banore)
+        {
+           return  context.Njoftime.Where(nj => nj.Shikushmeria == true && nj.Banore.Id == banore).Count();
+            
 
         }
         public static string CheckedRole(ApplicationDbContext context, string Banoreid)

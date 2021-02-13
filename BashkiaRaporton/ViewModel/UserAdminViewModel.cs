@@ -1,9 +1,11 @@
 ﻿using BashkiaRaporton.Models;
-using BashkiaRaporton.Data;
-using Microsoft.AspNetCore.Mvc;
-
+using System.Collections.Generic;
 
 namespace BashkiaRaporton.ViewModel
 {
-    
+    public class UserAdminViewModel
+    {
+        public List<Banore> Banores { get; set; }
+        public List<Role> Roles { get; set; }
+    }
 }

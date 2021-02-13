@@ -2,6 +2,7 @@
 @using BashkiaRaporton.Helper;
 @inject ApplicationDbContext context
 @using BashkiaRaporton.Data
+
 <div class="row delete border mr-2 ml-2 mt-2" id="banore-@Model.Id">
     <div class="col-1  p-2">
         @Model.Emri
@@ -22,11 +23,11 @@
                value="@Model.Detyrime" />
     </div>
     <div class="col-md-2 text-center p-2">
-        <select value="@Njesia.CheckedRole(context,Model.Id)" class="form-control" onchange="ChangeRole('@Url.Action("AddUserRole","Banore")','@Model.Id',this)" asp-items="@ViewBag.Role"></select>
-        @*<input onchange="ChangeRole('@Url.Action("Role","Banore"  , new { BanoreId=Model.Id})',this )"
-               
+        @*<select value="@Njesia.CheckedRole(context,Model.Id)" class="form-control" onchange="ChangeRole('@Url.Action("AddUserRole","Banore")','@Model.Id',this)" asp-items="@ViewBag.Role"></select>*@
+        <input onchange="UpdateRole('@Url.Action("UpdateRole","Banore" , new { id=Model.Id})',this )"
+               @Njesia.CheckedUserRole(context, Model.Id)
                type="checkbox"
-               value="1" />*@
+               />
     </div>
     <div class="col-1 p-2">
         <a onclick="Display('@Url.Action("Edit","Banore"  , new { banoreid=Model.Id})')" class="material-icons badge badge-primary text-white">create</a>
@@ -42,6 +43,18 @@
 </div>
 <script>
     function UpdatePagesa(url, result) {
+        $.ajax(url, {
+            type: 'POST',
+            data: { checked: result.checked },
+            success: function (data, status, xhr) {
+                location.reload();
+            },
+            error: function (jqXhr, textStatus, errorMessage) {
+                alert("Dicka shkoi gabim. kontaktoni suportin!")
+            }
+        });
+    }
+    function UpdateRole(url, result) {
         $.ajax(url, {
             type: 'POST',
             data: { checked: result.checked },

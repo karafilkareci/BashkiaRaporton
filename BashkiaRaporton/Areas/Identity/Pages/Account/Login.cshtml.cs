@@ -73,13 +73,16 @@ namespace BashkiaRaporton.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            if (User.IsInRole("Admin") || User.IsInRole("Administrator"))
+            var user = await _userManager.FindByEmailAsync(Input.Email);
+            // Get the roles for the user
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Contains("Admin") || roles.Contains("Administrator"))
             {
                 returnUrl ??= Url.Content("~/Home/Dashboard");
             }
             else
             {
-                returnUrl ??= Url.Content("~/Njoftime/Index");
+                returnUrl ??= Url.Content("~/Banore/Njoftime");
             }
                 
 

@@ -25,7 +25,7 @@ namespace BashkiaRaporton
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
+            services.AddHttpContextAccessor();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                  .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();           
