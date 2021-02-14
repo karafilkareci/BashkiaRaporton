@@ -77,6 +77,8 @@ namespace BashkiaRaporton.Controllers
         {
             var banore = _context.Banore.Where(b => b.Id == banoreid).FirstOrDefault();
             var pronesia = _context.Prona.Where(b => b.BanoreId == banoreid).ToList();
+            var fatura = _context.Fatura.Where(b => b.BanoreId == banoreid).ToList();
+            var njoftime = _context.Njoftime.Where(b => b.BanoreId == banoreid).ToList();
 
 
             if (banore != null)
@@ -84,6 +86,14 @@ namespace BashkiaRaporton.Controllers
                 foreach (var p in pronesia)
                 {
                     _context.Remove(p);
+                }
+                foreach(var f in fatura)
+                {
+                    _context.Remove(f);
+                }
+                foreach(var nj in njoftime)
+                {
+                    _context.Remove(nj);
                 }
                 _context.Remove(banore);
                 _context.SaveChanges();
@@ -260,8 +270,7 @@ namespace BashkiaRaporton.Controllers
 
                 Data = await _context.Njoftime
                                             .Include(s => s.Banore)
-                                             .Where(E =>
-                                              E.Banore.Emri.Contains(search ?? "") && E.BanoreId ==user.Id )
+                                             .Where(E => (E.Banore.Emri.Contains(search ?? "") || E.Mesazhi.Contains(search??"")) && E.BanoreId == user.Id)
                                              .Skip(ExecuteRecords)
                                              .Take(pageSize)
                                              .ToListAsync(),

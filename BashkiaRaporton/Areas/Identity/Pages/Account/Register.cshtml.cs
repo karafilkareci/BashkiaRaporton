@@ -77,8 +77,9 @@ namespace BashkiaRaporton.Areas.Identity.Pages.Account
             public int StatusId { get; set; }
             [Required]
             public int NjesiaId { get; set; }
-
+            [Required]
             public string Emri { get; set; }
+            [Required]
             public string Mbiemri { get; set; }
         }
 
